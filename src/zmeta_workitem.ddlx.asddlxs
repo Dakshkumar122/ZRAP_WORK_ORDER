@@ -1,0 +1,81 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+    typeName: 'Item',
+    typeNamePlural: 'Items',
+    title: {
+        type: #STANDARD,
+        label: 'Item',
+        value: '_WorkOrder'
+
+    }
+
+}
+annotate view ZC_WORK_ITEM with
+{
+  @UI.facet: [
+   {
+     id: 'ItemNo',
+     purpose: #STANDARD,
+     type: #IDENTIFICATION_REFERENCE,
+     label: 'Item Details',
+     position: 10
+   }
+  ]
+
+
+  @UI.lineItem: [{position: 10,label: 'Work Order' }]
+  @UI.identification: [{  position: 10, label: 'Work Order' } ]
+  WorkorderId;
+
+  @UI.lineItem: [{position: 20,label: 'Item No'    }  ]
+  @UI.identification: [{position: 20,label: 'Item No'   } ]
+  ItemNo;
+
+  @UI.lineItem: [ {position: 30,label: 'Material' } ]
+  @UI.identification: [{position: 30,label: 'Material'   } ]
+        @Consumption.valueHelpDefinition: [{
+      entity: {
+          name: 'ZVH_ITEM_MATERIAL',
+          element: 'Value'
+      },
+      additionalBinding: [{
+           localElement: 'Material',
+           element: 'Value'
+  }]
+  }]
+  Material;
+
+
+  @UI.lineItem: [{ position: 40,    label: 'Quantity'  }]
+  @UI.identification: [ {position: 40,label: 'Quantity'}]
+  Quantity;
+
+  @UI.identification: [{position: 50,label: 'Price'}]
+  @UI.lineItem: [{  position: 50,label: 'Price' } ]
+    @Consumption.valueHelpDefinition: [{
+  entity: {
+    name: 'I_Currency',
+    element: 'Currency'
+  }
+  }]
+  Price;
+
+  @UI.identification: [{position: 60,label: 'Net Amount'}]
+  @UI.lineItem: [{ position: 60, label: 'Net Amount'}]
+    @Consumption.valueHelpDefinition: [{
+  entity: {
+    name: 'I_Currency',
+    element: 'Currency'
+  }
+  }]
+  NetAmount;
+   @Consumption.valueHelpDefinition: [{
+    entity: {
+        name: 'I_Currency',
+        element: 'Currency'
+    }
+}]
+  Currency;
+
+
+}

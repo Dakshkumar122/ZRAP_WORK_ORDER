@@ -1,0 +1,73 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+    typeName: 'Employee',
+    typeNamePlural: 'Employees',
+    title: {
+        type: #STANDARD,
+        label: 'Employee',
+        value: '_WorkOrder'
+
+    }
+
+}
+annotate view ZC_WORK_EMP with
+{
+  @UI.facet: [
+   {
+     id: 'EmployeeId',
+     purpose: #STANDARD,
+     type: #IDENTIFICATION_REFERENCE,
+     label: 'Employee',
+     position: 10
+   }
+  ]
+
+  @UI.lineItem: [{position: 10,label: 'Work Order' }]
+  @UI.identification: [{  position: 10, label: 'Work Order' } ]
+  WorkorderId;
+  @UI.lineItem: [{position: 20,label: 'EmployeeId' }]
+  EmployeeId;
+  @UI.lineItem: [{position: 30,label: 'EmployeeName' }]
+  @UI.identification: [{  position: 30, label: 'EmployeeName' } ]
+  @Consumption.valueHelpDefinition: [{
+  entity: {
+    name: 'ZVH_WORKEMP_EMPID',
+    element: 'Value'
+  },
+  additionalBinding: [{
+     localElement: 'EmployeeId',
+     element: 'Value'
+  }]
+  }]
+  EmployeeName;
+  @UI.lineItem: [{position: 40,label: 'HourUnit' }]
+  @UI.identification: [{  position: 40, label: 'HourUnit' } ]
+  @Consumption.valueHelpDefinition: [{
+entity: {
+  name: 'ZVH_WORKEMP_HUNIT',
+  element: 'Value'
+},
+additionalBinding: [{
+   localElement: 'HourUnit',
+   element: 'Value'
+}]
+}]
+  HourUnit;
+  @UI.lineItem: [{position: 50,label: 'HoursWorked' }]
+  @UI.identification: [{  position: 50, label: 'HoursWorked' } ]
+  HoursWorked;
+  @UI.lineItem: [{position: 60,label: 'HourRate' }]
+  @UI.identification: [{  position: 60, label: 'HourRate' } ]
+  HourRate;
+  @UI.lineItem: [{position: 70,label: 'Cost' }]
+  @UI.identification: [{  position: 70, label: 'Cost' } ]
+  Cost;  
+  @Consumption.valueHelpDefinition: [{
+    entity: {
+        name: 'I_Currency',
+        element: 'Currency'
+    }
+}]
+  Currency;
+
+}

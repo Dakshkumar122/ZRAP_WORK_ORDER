@@ -1,0 +1,6 @@
+@EndUserText.label: 'service definition'
+define service ZSRV_WORK_ORDER {
+  expose ZC_WORK_ORDER;
+  expose ZC_WORK_ITEM;
+  expose ZC_WORK_EMP;
+}

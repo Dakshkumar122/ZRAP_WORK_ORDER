@@ -1,0 +1,143 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+  typeName: 'Work Order',
+  typeNamePlural: 'Work Orders',
+  title: { value: 'WorkorderId' },
+  description: { value: 'Plant' }
+}
+annotate view ZC_WORK_ORDER with
+{
+
+
+
+  @UI.facet: [
+    {
+      id: 'WorkorderId',
+      type: #IDENTIFICATION_REFERENCE,
+      label: 'Workorder',
+      position: 10
+    },
+    {
+      id: 'Items',
+      type: #LINEITEM_REFERENCE,
+      label: 'Items',
+      targetElement: '_Items',
+      position: 20
+    },
+    {
+      id: 'Employees',
+      type: #LINEITEM_REFERENCE,
+      label: 'Employees',
+      targetElement: '_Employees',
+      position: 30
+    }
+  ]
+
+
+  /* ========== GENERAL INFORMATION SECTION ========== */
+
+  @UI.identification: [{ position: 10 ,label: 'WorkorderId'}]
+  @UI.lineItem: [{ position: 10 ,label: 'WorkorderId'}]
+  WorkorderId;
+
+  @UI.identification: [{ position: 20 ,label: 'Description'}]
+  @UI.lineItem: [{ position: 20 ,label: 'Description'}]
+  Description;
+
+  @UI.identification: [{ position: 30 ,label: 'Plant'}]
+  @UI.lineItem: [{ position: 30 ,label: 'Plant'}]
+  @Consumption.valueHelpDefinition: [{
+  entity: {
+      name: 'ZVH_WORKORDER_PLANT',
+      element: 'Value'
+  },
+  additionalBinding: [{
+       localElement: 'Plant',
+       element: 'Value'
+  }
+  ]
+  }]
+  Plant;
+
+  @UI.identification: [{ position: 40 ,label: 'Ordertype'}]
+  @UI.lineItem: [{ position: 40 ,label: 'Ordertype'}]
+  @Consumption.valueHelpDefinition: [{
+  entity: {
+    name: 'ZVH_WORKORDER_ORDERT',
+    element: 'Value'
+  },
+  additionalBinding: [{
+     localElement: 'Ordertype',
+     element: 'Value'
+  }]
+  }]
+  Ordertype;
+
+  @UI.identification: [{ position: 50 ,label: 'Priority'}]
+  @UI.lineItem: [{ position: 50 ,label: 'Priority'}]
+
+  @Consumption.valueHelpDefinition: [{
+  entity: {
+    name: 'ZVH_WORKORDER_PRIORITY',
+    element: 'Value'
+  },
+  additionalBinding: [{
+     localElement: 'Priority',
+     element: 'Value'
+  }]
+  }]
+  Priority;
+
+  @UI.identification: [{ position: 60 ,label: 'Status'}]
+  @UI.lineItem: [{ position: 60,label: 'Status'}]
+  @Consumption.valueHelpDefinition: [{
+    entity: {
+        name: 'ZVH_WORKORDER_STATUS',
+        element: 'Value'
+    },
+    additionalBinding: [{
+         localElement: 'Status',
+         element: 'Value'
+  }]
+  }]
+  Status;
+
+
+  /* ========== COST SECTION ========== */
+
+  @UI.identification: [{ position: 70 ,label: 'TotalCost'}]
+  @UI.lineItem: [{ position: 70 ,label: 'TotalCost'}]
+  @UI.dataPoint: {
+      title: 'Total Cost',
+      criticalityCalculation: {
+        improvementDirection: #MAXIMIZE
+      }
+  }
+  TotalCost;
+
+
+  /* ========== APPROVAL SECTION ========== */
+
+  @UI.identification: [{ position: 10, qualifier: 'ApprovalInfo' ,label: 'ApprovedBy'}]
+  ApprovedBy;
+
+  @UI.identification: [{ position: 20, qualifier: 'ApprovalInfo' ,label: 'ApprovedBy'}]
+  ApprovedAt;
+
+
+  /* Hide Technical Fields */
+
+  @UI.hidden: true
+  CreatedBy;
+
+  @UI.hidden: true
+  CreatedAt;
+  @Consumption.valueHelpDefinition: [{
+  entity: {
+    name: 'I_Currency',
+    element: 'Currency'
+  }
+  }]
+  Currency;
+
+}

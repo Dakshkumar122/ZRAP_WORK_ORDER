@@ -1,0 +1,155 @@
+managed implementation in class zbp_i_work_order unique;
+strict ( 2 );
+
+with draft;
+
+define behavior for ZI_WORK_ORDER alias WORKORDER
+persistent table zwo_header
+draft table zwo_header_d
+lock master
+total etag LastChangedAt
+authorization master ( instance )
+//etag master CreatedAt
+{
+  create ( authorization : global );
+  update;
+  delete;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+
+  field ( numbering : managed, readonly ) WorkorderId;
+  association _Employees { create; with draft; }
+  association _Items { create; with draft; }
+
+  mapping for zwo_header
+    {
+      WorkorderId        = workorder_id;
+      Description        = description;
+      Plant              = plant;
+      Ordertype          = ordertype;
+      Priority           = priority;
+      Status             = status;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      TotalCost          = total_cost;
+      Currency           = currency;
+      ApprovedBy         = approved_by;
+      ApprovedAt         = approved_at;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
+      LocalLastChnagedAt = local_last_changed_at;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+define behavior for ZI_WORK_EMP alias EMPLOYE
+persistent table zwo_employe
+draft table zwo_emp_d
+lock dependent by _WorkOrder
+authorization dependent by _WorkOrder
+etag master LastChangedAt
+{
+
+  update;
+  delete;
+  field ( readonly ) WorkorderId, EmployeeId, Cost;
+
+
+
+  association _WorkOrder;
+
+  determination calculateCost on modify { field HoursWorked, HourRate; }
+
+   determination generateemployeeid on modify { field EmployeeId; }
+
+  mapping for zwo_employe
+    {
+      WorkorderId        = workorder_id;
+      EmployeeId         = employee_id;
+      EmployeeName       = employee_name;
+      HourUnit           = hour_unit;
+      HoursWorked        = hours_worked;
+      HourRate           = hour_rate;
+      Cost               = cost;
+      Currency           = currency;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
+      LocalLastChnagedAt = local_last_changed_at;
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+define behavior for ZI_WORK_ITEM alias ITEM
+persistent table zwo_item
+draft table zwo_item_d
+lock dependent by _WorkOrder
+authorization dependent by _WorkOrder
+etag master LastChangedBy
+{
+  update;
+  delete;
+  field ( readonly ) WorkorderId;
+  field ( numbering : managed, readonly ) ItemNo;
+
+  field ( mandatory ) Quantity;
+  field ( readonly ) NetAmount;
+  field ( readonly ) Price;
+  field ( readonly ) Unit;
+
+  association _WorkOrder;
+
+  validation validateQuantity on save { field Quantity; }
+
+  determination setMaterialData on modify { field Material; }
+  determination calculateNetAmount on modify { field Quantity; field Price; }
+
+
+
+
+
+  mapping for zwo_item
+    {
+      WorkorderId        = workorder_id;
+      ItemNo             = item_no;
+      Material           = material;
+      Quantity           = quantity;
+      Unit               = unit;
+      Price              = price;
+      NetAmount          = net_amount;
+      Currency           = currency;
+      LastChangedAt      = last_changed_at;
+      LastChangedBy      = last_changed_by;
+      LocalLastChnagedAt = local_last_changed_at;
+    }
+
+}
